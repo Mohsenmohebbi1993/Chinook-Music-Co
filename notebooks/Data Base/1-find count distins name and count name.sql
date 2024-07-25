@@ -1,0 +1,1 @@
+SELECT count(DISTINCT name) as Uniqe_Count, count(name) as Count_name FROM playlist;
