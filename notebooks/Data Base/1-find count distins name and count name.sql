@@ -1,1 +1,1 @@
-SELECT count(DISTINCT name) as Uniqe_Count, count(name) as Count_name FROM playlist;
+SELECT count(DISTINCT albumid) as Uniqe_Count, count(albumid) as Count_name FROM album;
