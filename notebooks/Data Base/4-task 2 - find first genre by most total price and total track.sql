@@ -14,5 +14,4 @@ SELECT Genre_name,
     count(TrackId) AS Track_count
 FROM Genre_with_Track_and_total_price
 GROUP BY Genre_name
-order by Total_price_genre DESC, Track_count DESC
-limit 1
+order by  Track_count DESC , Total_price_genre DESC
