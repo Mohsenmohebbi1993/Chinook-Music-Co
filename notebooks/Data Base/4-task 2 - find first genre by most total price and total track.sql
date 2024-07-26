@@ -15,3 +15,4 @@ SELECT Genre_name,
 FROM Genre_with_Track_and_total_price
 GROUP BY Genre_name
 order by  Track_count DESC , Total_price_genre DESC
+
