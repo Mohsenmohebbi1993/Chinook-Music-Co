@@ -117,6 +117,44 @@ from (select
     group by Year_selse
 ) as year_totao_price
 order by Year_selse
+-- ***************
+-- task 9: Customers whose purchase is more than the average purchase of all customers
+-- way 1
+with Customer_total_buy as(
+select 
+	iv.CustomerId,
+	concat(cu.FirstName, " - ",cu.LastName) as customer_name,
+	sum(ie.UnitPrice * ie.Quantity) as Total_buy
+	from invoiceline ie
+join invoice iv on iv.InvoiceId = ie.InvoiceId
+join customer cu on cu.CustomerId = iv.CustomerId
+group by iv.CustomerId,customer_name )
+	
+select * from Customer_total_buy
+where Total_buy > (select avg(Total_buy) from Customer_total_buy)
+order by Total_buy desc
+-- way 2
+with Customer_total_buy as(
+select 
+	iv.CustomerId,
+	concat(cu.FirstName, " - ",cu.LastName) as customer_name,
+	sum(ie.UnitPrice * ie.Quantity) as Total_buy
+	from invoiceline ie
+join invoice iv on iv.InvoiceId = ie.InvoiceId
+join customer cu on cu.CustomerId = iv.CustomerId
+group by iv.CustomerId,customer_name ),
+	
+Customer_up_or_down_avg as(
+select CustomerId ,customer_name, Total_buy,
+CASE 
+when Total_buy > (select avg(Total_buy) from Customer_total_buy) then "UP avg"
+when Total_buy < (select avg(Total_buy) from Customer_total_buy) then "Down avg"
+end as discripcion
+from Customer_total_buy)
+
+select * from Customer_up_or_down_avg
+where discripcion ="UP avg"
+order by Total_buy desc
 
 
 
