@@ -60,5 +60,32 @@ sum(UnitPrice * Quantity) as total_price
 from invoce_with_customerid
 group by EmployeeId, FirstName, LastName
 order by total_quantity desc
+limit 1
+-- ***********************
+-- task 6: Users who have purchased more than one genre
+with Customer_by_gener as
+(select ie.Quantity,
+	ic.CustomerId,
+   concat(cu.FirstName," - ", cu.LastName) as Customer_name,
+   tr.GenreId,
+   gr.name as gener_name
+ from invoiceline ie
+ join invoice ic on ic.InvoiceId = ie.InvoiceId
+ join customer cu on cu.CustomerId = ic.CustomerId
+ join track tr on tr.TrackId = ie.TrackId
+ join genre gr on gr.GenreId = tr.GenreId)
+ select CustomerId, Customer_name,
+ count( distinct GenreId) as count_gener
+ from Customer_by_gener
+
+ group by CustomerId, Customer_name
+ order by count_gener desc;
+ where count_gener > 1;
+ 
+ -- ********************
+ -- task 7:
+
+
+
 
 
