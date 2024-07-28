@@ -83,7 +83,27 @@ with Customer_by_gener as
  where count_gener > 1;
  
  -- ********************
- -- task 7:
+ -- task 7: Top three grossing songs for each genre
+with Track_price_genre as (
+select ie.InvoiceId, ie.TrackId, tr.Name as Track_name,
+ sum(ie.UnitPrice* ie.Quantity) over(partition by ie.TrackId) as total_price, 
+ tr.GenreId,
+gr.Name as genre_name
+from invoiceline ie
+join track tr on tr.TrackId = ie.TrackId
+join genre gr on gr.GenreId = tr.GenreId),
+
+distinct_track as(select distinct trackid, Track_name, total_price, GenreId, genre_name
+-- row_number() over (partition by GenreId order by total_price) as rank_music_per_genre
+ from Track_price_genre),
+ 
+rank_per_genre as(
+select trackid, Track_name, total_price, GenreId, genre_name,
+row_number() over (partition by GenreId order by total_price desc) as rank_per_genre
+from distinct_track)
+select * from rank_per_genre
+where rank_per_genre <4
+
 
 
 
