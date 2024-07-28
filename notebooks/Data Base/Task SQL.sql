@@ -103,7 +103,20 @@ row_number() over (partition by GenreId order by total_price desc) as rank_per_g
 from distinct_track)
 select * from rank_per_genre
 where rank_per_genre <4
-
+-- ************************
+-- task 8: Cumulative number of songs sold per year
+select Year_selse, total_price, total_quantity,
+    SUM(total_price) over (order by Year_selse) as cumulative_price,
+    SUM(total_quantity) over (order by Year_selse) as cumulative_quantity
+from (select 
+	SUBSTRING_INDEX(iv.InvoiceDate, "-", 1) AS Year_selse,
+	sum(ie.Quantity * ie.UnitPrice) AS total_price,
+	sum(ie.Quantity) as total_quantity
+    from invoiceline ie
+    join invoice iv on iv.InvoiceId = ie.InvoiceId
+    group by Year_selse
+) as year_totao_price
+order by Year_selse
 
 
 
