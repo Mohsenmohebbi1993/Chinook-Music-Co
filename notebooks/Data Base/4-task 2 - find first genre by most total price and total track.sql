@@ -1,12 +1,13 @@
 with Genre_with_Track_and_total_price as
 (select ie.TrackId,
  tr.GenreId,
- tr.Name as Genre_name,
+ ge.Name as Genre_name,
  ie.Quantity,
  ie.UnitPrice,
  (ie.Quantity * ie.UnitPrice) as Total_price
 from invoiceline ie
 join track tr on ie.TrackId = tr.TrackId
+join genre ge on ge.GenreId = tr.GenreId
 group by ie.TrackId, tr.GenreId, Genre_name, ie.Quantity, ie.UnitPrice)
 
 SELECT Genre_name,
