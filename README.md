@@ -1,4 +1,4 @@
-#Analysis of Chinook Company
+# Analysis of Chinook Company
 
 The sales dataset of Chinook Company has been provided for our analysis. In the database section, the required questions were answered using SQL queries. In the analysis section, the questions were addressed using Pandas for data manipulation and conducting statistical tests.
 
